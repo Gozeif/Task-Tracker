@@ -1,7 +1,7 @@
 import typer
 
 
-def main(name: str):
+def main():
     while True:
         x = input("Enter a number: ")
         if x == "exit":
