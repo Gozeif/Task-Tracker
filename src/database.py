@@ -19,5 +19,11 @@ class LoadManager:
         if not os.path.exists(self.filename):
             return []
         with open(self.filename, "r") as f:
-            data = json.load(f)
+            text = f.read().strip()
+            if not text:
+                return []
+            try:
+                data = json.loads(text)
+            except json.JSONDecodeError:
+                return []
             return [Task.from_dict(item) for item in data]
