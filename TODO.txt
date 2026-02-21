@@ -1,0 +1,6 @@
+append new tasks when saving instead of overwriting the entire file everytime
+read all options (even defaults) from a config.txt file
+allow the user to alter config.txt
+
+
+GUI????
