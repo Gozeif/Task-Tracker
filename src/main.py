@@ -46,9 +46,17 @@ def update(command: str,task_id: str, option: str):
         console.print("Invalid update command. Use 'title', 'status', or 'description'.", style="red")
 
 @app.command()
-def list():
-    """List all tasks."""
-    tasks = logic.TaskManager().get_tasks()
+def list(status: str = "all"):
+    """Filter tasks by status if a specific status is provided; otherwise, list all tasks."""
+    if status not in ["all", "todo", "in-progress", "done"]:
+        console.print("Invalid list status. Use 'all', 'todo', 'in-progress', or 'done'.", style="red")
+        return
+    elif status != "all":
+        """List tasks filtered by status."""
+        tasks = [task for task in logic.TaskManager().get_tasks() if task.status.value == status]
+    else:
+        """List all tasks."""
+        tasks = logic.TaskManager().get_tasks()
     table = Table(title="Tasks")
     table.add_column("ID", style="cyan", no_wrap=True)
     table.add_column("Title", style="magenta")
