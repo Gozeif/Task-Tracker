@@ -2,6 +2,7 @@ from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from enum import Enum
 from uuid import uuid4
+from nanoid import generate
 
 
 class Status(Enum):
@@ -9,11 +10,14 @@ class Status(Enum):
     IN_PROGRESS = "in-progress"
     DONE = "done"
 
+safe_alphabet = "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
+
 @dataclass
 class Task:
     title: str
     # We use a factory for default values to ensure every task gets a unique ID and timestamp
-    id: str = field(default_factory=lambda: str(uuid4())[:8])
+    # generate an 8-character string directly; slicing isn't needed now that size matches
+    id: str = field(default_factory=lambda: generate(safe_alphabet, size=8))
     description: str = ""
     created_at: str = field(default_factory=lambda: datetime.now().isoformat())
     updated_at: str = field(default_factory=lambda: datetime.now().isoformat())
@@ -30,47 +34,3 @@ class Task:
         """Creates a Task object from a dictionary (loading from JSON)."""
         data["status"] = Status(data["status"])  # Convert string value back to enum
         return cls(**data)
-
-# import datetime
-# import json
-
-# class TaskManager:
-#     def __init__(self, filename="tasks.json"):
-#         self.filename = filename
-#         try:
-#             with open(self.filename, "r") as db:
-#                 self.tasks = json.load(db)
-#         except FileNotFoundError:
-#             self.tasks = []
-
-#     def add_task(self, task):
-#         self.tasks.append(task)
-
-#     def remove_task(self, task):
-#         if task in self.tasks:
-#             self.tasks.remove(task)
-
-#     def get_tasks(self):
-#         return self.tasks
-
-#     def save_tasks(self):
-#         with open(self.filename, "w") as f:
-#             json.dump(self.tasks, f, default=str)
-
-# class Task:
-#     statuses = ["todo", "in-progress", "done"]
-#     def __init__(self, id, description, status, createdAt, updatedAt):
-#         self.id = id
-#         self.description = description
-#         self.status = status
-#         self.createdAt = createdAt
-#         self.updatedAt = updatedAt
-#     def update_status(self, new_status):
-#         if new_status in self.statuses:
-#             self.status = new_status
-#             self.updatedAt = datetime.datetime.now()
-#         else:
-#             raise ValueError("Invalid status")
-#     def update_description(self, new_description):
-#         self.description = new_description
-#         self.updatedAt = datetime.datetime.now()

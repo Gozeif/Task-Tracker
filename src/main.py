@@ -8,9 +8,9 @@ app = typer.Typer(help="My Professional Task Tracker CLI application.")
 console = Console()
 
 @app.command()
-def add(title: str):
-    """Add a new task with the given title."""
-    logic.TaskManager().add_task(title)
+def add(title: str, description: str = ""):
+    """Add a new task with the given title and optional description."""
+    logic.TaskManager().add_task(title, description)
     console.print(f"Task added: {title}", style="green")
 
 @app.command()
@@ -24,7 +24,7 @@ def update(command: str,task_id: str, option: str):
     """Update a task's title by its ID."""
     if command == "title":
         logic.TaskManager().update_task_title(task_id, option)
-        task =logic.TaskManager().tasks[task_id]
+        task =logic.TaskManager().tasks[int(task_id)]
         console.print(f"Task title updated: {task.id}, {task.title}, {task.description}, {task.status.value}, {task.updated_at}, {task.created_at}", style="yellow")
     elif command == "status":
         try:
@@ -36,11 +36,11 @@ def update(command: str,task_id: str, option: str):
                 style="red",
             )
             return
-        task =logic.TaskManager().tasks[task_id]
+        task =logic.TaskManager().tasks[int(task_id)]
         console.print(f"Task status updated: {task.id}, {task.title}, {task.description}, {task.status.value}, {task.updated_at}, {task.created_at}", style="yellow")
     elif command == "description":
         logic.TaskManager().update_task_description(task_id, option)
-        task =logic.TaskManager().tasks[task_id]
+        task =logic.TaskManager().tasks[int(task_id)]
         console.print(f"Task description updated: {task.id}, {task.title}, {task.description}, {task.status.value}, {task.updated_at}, {task.created_at}", style="yellow")
     else:
         console.print("Invalid update command. Use 'title', 'status', or 'description'.", style="red")

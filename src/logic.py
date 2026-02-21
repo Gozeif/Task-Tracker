@@ -1,7 +1,6 @@
 from src.database import LoadManager
 from src.models import Task, Status
 from datetime import datetime
-import uuid
 
 class TaskManager:
     def __init__(self, filename="../data/tasks.json"):
@@ -9,8 +8,9 @@ class TaskManager:
         self.manager = LoadManager(filename)
         self.tasks = self.manager.tasks
 
-    def add_task(self, title):
-        new_task = Task(title=title, id=str(uuid.uuid4()))
+    def add_task(self, title, description=""):
+        # let Task default_factory produce a unique id
+        new_task = Task(title=title, description=description)
         self.tasks.append(new_task)
         self.manager.save_tasks()
 
