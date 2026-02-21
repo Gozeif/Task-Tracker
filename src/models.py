@@ -11,7 +11,7 @@ class Status(Enum):
 
 @dataclass
 class Task:
-    title: str
+    title: str = ""
     # We use a factory for default values to ensure every task gets a unique ID and timestamp
     id: str = field(default_factory=lambda: str(uuid4())[:8])
     description: str = ""

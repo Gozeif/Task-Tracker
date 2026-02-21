@@ -16,6 +16,14 @@ class TaskManager:
         self.tasks = [task for task in self.tasks if task.id != task_id]
         save_tasks(self.tasks)
 
+    def update_task_title(self, task_id, new_title):
+        for task in self.tasks:
+            if task.id == task_id:
+                task.title = new_title
+                task.updated_at = datetime.now().isoformat()
+                break
+        save_tasks(self.tasks)
+
     def update_task_status(self, task_id, new_status):
         for task in self.tasks:
             if task.id == task_id:
@@ -34,13 +42,3 @@ class TaskManager:
 
     def get_tasks(self):
         return self.tasks
-
-    # def add_task(self, task):
-    #     self.tasks.append(task)
-
-    # def remove_task(self, task):
-    #     if task in self.tasks:
-    #         self.tasks.remove(task)
-
-    # def get_tasks(self):
-    #     return self.tasks
