@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from enum import Enum
 from uuid import uuid4
@@ -11,9 +11,9 @@ class Status(Enum):
 
 @dataclass
 class Task:
-    # We use a factory for default values to ensure every task gets a unique ID and timestamp
-    id: str = field(default_factory=lambda: str(uuid4())[:8]) 
     title: str
+    # We use a factory for default values to ensure every task gets a unique ID and timestamp
+    id: str = field(default_factory=lambda: str(uuid4())[:8])
     description: str = ""
     created_at: str = field(default_factory=lambda: datetime.now().isoformat())
     updated_at: str = field(default_factory=lambda: datetime.now().isoformat())
@@ -21,7 +21,7 @@ class Task:
 
     def to_dict(self):
         """Converts the object to a dictionary for JSON saving."""
-        data = self.__dict__.copy()
+        data = asdict(self)
         data["status"] = data["status"].value  # Convert enum to string value
         return data
 
