@@ -2,20 +2,10 @@ import json
 import os
 from src.models import Task
 
-class TaskManager:
+class LoadManager:
     def __init__(self, filename="../data/tasks.json"):
         self.filename = filename
         self.tasks = self.load_tasks()
-
-    def add_task(self, task):
-        self.tasks.append(task)
-
-    def remove_task(self, task):
-        if task in self.tasks:
-            self.tasks.remove(task)
-
-    def get_tasks(self):
-        return self.tasks
 
     def save_tasks(self):
         if not os.path.exists(os.path.dirname(self.filename)):
