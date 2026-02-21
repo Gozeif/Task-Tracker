@@ -1,18 +1,58 @@
 import typer
+from rich.console import Console
+from rich.table import Table
+import src.logic as logic
+from src.models import Status
 
+app = typer.Typer(help="My Professional Task Tracker CLI application.")
+console = Console()
 
-def main():
-    while True:
-        x = input("Enter a number: ")
-        if x == "exit":
-            print("Exiting the program.")
-            break
-        try:
-            x = int(x)
-            print(f"You entered: {x}")
-        except ValueError:
-            print("Invalid input. Please enter a valid number.")
+@app.command()
+def add(title: str):
+    """Add a new task with the given title."""
+    logic.TaskManager().add_task(title)
+    console.print(f"Task added: {title}", style="green")
 
+@app.command()
+def remove(task_id: str):
+    """Remove a task by its ID."""
+    logic.TaskManager().remove_task(task_id)
+    console.print(f"Task removed: {task_id}", style="red")
+
+@app.command()
+def update(command: str,task_id: str, option: str):
+    """Update a task's title by its ID."""
+    if command == "title":
+        logic.TaskManager().update_task_title(task_id, option)
+        task =logic.TaskManager().tasks[task_id]
+        console.print(f"Task title updated: {task.id}, {task.title}, {task.description}, {task.status.value}, {task.updated_at}, {task.created_at}", style="yellow")
+    elif command == "status":
+        logic.TaskManager().update_task_status(task_id, option)
+        task =logic.TaskManager().tasks[task_id]
+        console.print(f"Task status updated: {task.id}, {task.title}, {task.description}, {task.status.value}, {task.updated_at}, {task.created_at}", style="yellow")
+    elif command == "description":
+        logic.TaskManager().update_task_description(task_id, option)
+        task =logic.TaskManager().tasks[task_id]
+        console.print(f"Task description updated: {task.id}, {task.title}, {task.description}, {task.status.value}, {task.updated_at}, {task.created_at}", style="yellow")
+    else:
+        console.print("Invalid update command. Use 'title', 'status', or 'description'.", style="red")
+
+@app.command()
+def list():
+    """List all tasks."""
+    tasks = logic.TaskManager().get_tasks()
+    table = Table(title="Tasks")
+    table.add_column("ID", style="cyan", no_wrap=True)
+    table.add_column("Title", style="magenta")
+    table.add_column("Description", style="yellow")
+    table.add_column("Status", style="green")
+    table.add_column("Created At", style="blue")
+    table.add_column("Updated At", style="blue")
+
+    for task in tasks:
+        table.add_row(task.id, task.title, task.description, task.status.value, task.created_at, task.updated_at)
+
+    console.print(table)
 
 if __name__ == "__main__":
-    typer.run(main)
+    app()
