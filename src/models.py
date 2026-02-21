@@ -1,7 +1,6 @@
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from enum import Enum
-from uuid import uuid4
 from nanoid import generate
 
 
