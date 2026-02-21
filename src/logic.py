@@ -3,9 +3,9 @@ from src.models import Task, Status
 from datetime import datetime
 
 class TaskManager:
-    def __init__(self, filename="../data/tasks.json"):
+    def __init__(self):
         # create a LoadManager instance responsible for persistence
-        self.manager = LoadManager(filename)
+        self.manager = LoadManager()
         self.tasks = self.manager.tasks
 
     def add_task(self, title, description=""):

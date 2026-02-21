@@ -3,9 +3,10 @@ import os
 from src.models import Task
 
 class LoadManager:
-    def __init__(self, filename="../data/tasks.json"):
-        self.filename = filename
+    filename: str = "data/tasks.json"
+    def __init__(self):
         self.tasks = self.load_tasks()
+        print(f"Loaded {len(self.tasks)} tasks from {self.filename}")
 
     def save_tasks(self):
         if not os.path.exists(os.path.dirname(self.filename)):
