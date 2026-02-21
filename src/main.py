@@ -24,7 +24,7 @@ def update(command: str,task_id: str, option: str):
     """Update a task's title by its ID."""
     if command == "title":
         logic.TaskManager().update_task_title(task_id, option)
-        task =logic.TaskManager().tasks[int(task_id)]
+        task = [task for task in logic.TaskManager().tasks if task.id == task_id][0]
         console.print(f"Task title updated: {task.id}, {task.title}, {task.description}, {task.status.value}, {task.updated_at}, {task.created_at}", style="yellow")
     elif command == "status":
         try:
@@ -36,11 +36,11 @@ def update(command: str,task_id: str, option: str):
                 style="red",
             )
             return
-        task =logic.TaskManager().tasks[int(task_id)]
+        task = [task for task in logic.TaskManager().tasks if task.id == task_id][0]
         console.print(f"Task status updated: {task.id}, {task.title}, {task.description}, {task.status.value}, {task.updated_at}, {task.created_at}", style="yellow")
     elif command == "description":
         logic.TaskManager().update_task_description(task_id, option)
-        task =logic.TaskManager().tasks[int(task_id)]
+        task = [task for task in logic.TaskManager().tasks if task.id == task_id][0]
         console.print(f"Task description updated: {task.id}, {task.title}, {task.description}, {task.status.value}, {task.updated_at}, {task.created_at}", style="yellow")
     else:
         console.print("Invalid update command. Use 'title', 'status', or 'description'.", style="red")
