@@ -1,20 +1,23 @@
-from database import load_tasks, save_tasks
-from models import Task, Status
+from src.database import LoadManager
+from src.models import Task, Status
 from datetime import datetime
 import uuid
 
 class TaskManager:
-    def __init__(self):
-        self.tasks = load_tasks()
+    def __init__(self, filename="../data/tasks.json"):
+        # create a LoadManager instance responsible for persistence
+        self.manager = LoadManager(filename)
+        self.tasks = self.manager.tasks
 
-    def add_task(self, description):
-        new_task = Task(id=str(uuid.uuid4()), description=description)
+    def add_task(self, title):
+        new_task = Task(title=title, id=str(uuid.uuid4()))
         self.tasks.append(new_task)
-        save_tasks(self.tasks)
+        self.manager.save_tasks()
 
     def remove_task(self, task_id):
         self.tasks = [task for task in self.tasks if task.id != task_id]
-        save_tasks(self.tasks)
+        self.manager.tasks = self.tasks
+        self.manager.save_tasks()
 
     def update_task_title(self, task_id, new_title):
         for task in self.tasks:
@@ -22,7 +25,8 @@ class TaskManager:
                 task.title = new_title
                 task.updated_at = datetime.now().isoformat()
                 break
-        save_tasks(self.tasks)
+        self.manager.tasks = self.tasks
+        self.manager.save_tasks()
 
     def update_task_status(self, task_id, new_status):
         for task in self.tasks:
@@ -30,7 +34,8 @@ class TaskManager:
                 task.status = Status(new_status)
                 task.updated_at = datetime.now().isoformat()
                 break
-        save_tasks(self.tasks)
+        self.manager.tasks = self.tasks
+        self.manager.save_tasks()
 
     def update_task_description(self, task_id, new_description):
         for task in self.tasks:
@@ -38,7 +43,8 @@ class TaskManager:
                 task.description = new_description
                 task.updated_at = datetime.now().isoformat()
                 break
-        save_tasks(self.tasks)
+        self.manager.tasks = self.tasks
+        self.manager.save_tasks()
 
     def get_tasks(self):
         return self.tasks

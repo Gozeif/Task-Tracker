@@ -27,7 +27,15 @@ def update(command: str,task_id: str, option: str):
         task =logic.TaskManager().tasks[task_id]
         console.print(f"Task title updated: {task.id}, {task.title}, {task.description}, {task.status.value}, {task.updated_at}, {task.created_at}", style="yellow")
     elif command == "status":
-        logic.TaskManager().update_task_status(task_id, option)
+        try:
+            logic.TaskManager().update_task_status(task_id, option)
+        except ValueError:
+            console.print(
+                f"'{option}' is not a valid status. "
+                f"Choose from {[s.value for s in Status]}.",
+                style="red",
+            )
+            return
         task =logic.TaskManager().tasks[task_id]
         console.print(f"Task status updated: {task.id}, {task.title}, {task.description}, {task.status.value}, {task.updated_at}, {task.created_at}", style="yellow")
     elif command == "description":
