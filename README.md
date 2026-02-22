@@ -1,6 +1,5 @@
 # Task Tracker
-
-A simple Python command-line application for managing a task list stored in JSON.  
+A simple Python command-line application for managing a task list stored in JSON.
 This project provides basic create/read/update/delete operations on tasks and persists them in a file under `data/tasks.json`.
 
 ## Features
@@ -62,3 +61,5 @@ src/
     main.py       # CLI entry point
     models.py     # data classes for tasks
 ```
+
+Created as a solution for the [Task Tracker](https://roadmap.sh/projects/task-tracker) challenge from [roadmap.sh](https://roadmap.sh/).
