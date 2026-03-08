@@ -32,3 +32,36 @@
 **/values.dev.yaml
 LICENSE
 README.md
+
+
+# --- Python & Build Artifacts ---
+**/*.py[cod]
+**/*$py.class
+**/.pytest_cache/
+**/env/
+**/venv/
+**/requirements.txt
+**/requirements_dev.txt
+
+# --- Project-Specific Secrets & Data ---
+# These are handled by Docker Secrets or mounted volumes, NOT the image.
+**/secrets/
+**/db/*.sql
+
+# --- Windows System Junk ---
+[Cc]ache/
+[Tt]humbs.db
+desktop.ini
+$RECYCLE.BIN/
+*.lnk
+*.exe
+*.dll
+*.msi
+
+# --- IDE & Developer Tools ---
+# Based on your "Task Tracker.code-workspace" and "to_do.txt" files.
+**/.vscode/
+**/.idea/
+**/*.code-workspace
+**/to_do.txt
+**/.history/

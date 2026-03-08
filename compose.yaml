@@ -12,9 +12,11 @@ services:
     build:
       context: .
     ports:
-      - 8000:8000
-    volumes:
-      - ./data:/app/data
+      - "8000:8000"  # Allows you to access the app from Windows
+    environment:
+      - DB_PASSWORD_PATH=/run/secrets/db-pw
+    tty: true
+    stdin_open: true
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
@@ -25,21 +27,23 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    secrets:
+      - db_pw
   db:
-    image: postgres
+    image: postgres:18
     restart: always
     secrets:
       - db-pw
     volumes:
-      - db-data:/var/lib/postgresql
+      - db-data:/var/lib/postgresql/18/docker
     environment:
       - POSTGRES_DB=${POSTGRES_DB_NAME}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD_FILE=/run/secrets/db-pw
     ports:
-      - 5432:5432
+      - "5432:5432"  # Allows pgAdmin/DBeaver on Windows to connect
     healthcheck:
-      test: [ "CMD", "pg_isready" ]
+      test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -47,7 +51,4 @@ volumes:
   db-data:
 secrets:
   db-pw:
-    file: secrets/db_password.txt
-env_file:
-  - .env
-env_file_optional: true
+    file: ./secrets/db_password.txt

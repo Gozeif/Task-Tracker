@@ -1,6 +1,19 @@
+# --- Sensitive Information ---
 .env
-.venv
-secrets
+secrets/
+
+# --- Python ---
+**/__pycache__/
+*.py[cod]
+.venv/
+env/
+
+# --- Windows System Files ---
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# --- IDE & Workspace ---
+.vscode/
+*.code-workspace
 to_do.txt
-src/__pycache__
-Task_Tracker.code-workspace

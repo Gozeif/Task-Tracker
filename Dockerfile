@@ -51,4 +51,4 @@ COPY --chown=appuser:appuser . .
 EXPOSE 8000
 
 # Run the application.
-ENTRYPOINT [ "python", "main.py" ]
+ENTRYPOINT [ "python", "-m", "src.main"]
