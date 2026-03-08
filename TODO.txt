@@ -1,7 +1,0 @@
-hold all task changes in memory and save to disk only on program exit
-append new tasks when saving instead of overwriting the entire file everytime
-change all options (even defaults) to read from a config.txt file
-allow the user to alter config.txt
-
-
-GUI????
