@@ -1,5 +1,6 @@
 .env
 .venv
 secrets
+TODO.txt
 src/__pycache__
 Task Tracker.code-workspace
