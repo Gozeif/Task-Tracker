@@ -10,9 +10,10 @@ def get_secret(secret_name, default=None):
 
 # Load variables once
 DB_USER = os.getenv("DB_USER", "myuser")
-DB_PASS = get_secret("db_pw", "devpass")
+DB_PASS = get_secret("DB_PW", "devpass")
 DB_HOST = os.getenv("DB_HOST", "db")
+DB_PORT = os.getenv("DB_PORT", "5432")
 DB_NAME = os.getenv("DB_NAME", "myapp_db")
 
 # Construct the full connection string
-DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:5432/{DB_NAME}"
+DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"

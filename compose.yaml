@@ -15,8 +15,6 @@ services:
       - 8000:8000
     volumes:
       - ./data:/app/data
-    environment:
-      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/tododb
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
@@ -35,7 +33,7 @@ services:
     volumes:
       - db-data:/var/lib/postgresql
     environment:
-      - POSTGRES_DB=tododb
+      - POSTGRES_DB=${POSTGRES_DB_NAME}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD_FILE=/run/secrets/db-pw
     ports:
@@ -49,4 +47,7 @@ volumes:
   db-data:
 secrets:
   db-pw:
-    file: db/password.txt
+    file: secrets/db_password.txt
+env_file:
+  - .env
+env_file_optional: true

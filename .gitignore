@@ -1,4 +1,5 @@
 .env
+.venv
+secrets
 src/__pycache__
-
-db/password.txt
+Task Tracker.code-workspace
