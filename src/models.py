@@ -3,13 +3,14 @@ from datetime import datetime
 from enum import Enum
 from nanoid import generate
 
+safe_alphabet = "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
+tasks: list["Task"] = []
 
 class Status(Enum):
     TODO = "todo"
     IN_PROGRESS = "in-progress"
     DONE = "done"
 
-safe_alphabet = "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
 
 @dataclass
 class Task:
@@ -22,14 +23,14 @@ class Task:
     updated_at: str = field(default_factory=lambda: datetime.now().isoformat())
     status: Status = Status.TODO
 
-    def to_dict(self):
-        """Converts the object to a dictionary for JSON saving."""
-        data = asdict(self)
-        data["status"] = data["status"].value  # Convert enum to string value
-        return data
+    # def to_dict(self):
+    #     """Converts the object to a dictionary for JSON saving."""
+    #     data = asdict(self)
+    #     data["status"] = data["status"].value  # Convert enum to string value
+    #     return data
 
-    @classmethod
-    def from_dict(cls, data):
-        """Creates a Task object from a dictionary (loading from JSON)."""
-        data["status"] = Status(data["status"])  # Convert string value back to enum
-        return cls(**data)
+    # @classmethod
+    # def from_dict(cls, data):
+    #     """Creates a Task object from a dictionary (loading from JSON)."""
+    #     data["status"] = Status(data["status"])  # Convert string value back to enum
+    #     return cls(**data)

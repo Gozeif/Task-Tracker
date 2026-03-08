@@ -2,7 +2,7 @@ import typer
 from rich.console import Console
 from rich.table import Table
 import src.logic as logic
-from src.models import Status
+from src.models import Status, tasks
 
 app = typer.Typer(help="My Professional Task Tracker CLI application.")
 console = Console()
@@ -53,10 +53,10 @@ def list(status: str = "all"):
         return
     elif status != "all":
         """List tasks filtered by status."""
-        tasks = [task for task in logic.TaskManager().get_tasks() if task.status.value == status]
+        tasks_filtered_by_status = [task for task in tasks if task.status.value == status]
     else:
         """List all tasks."""
-        tasks = logic.TaskManager().get_tasks()
+        tasks_filtered_by_status = tasks
     table = Table(title="Tasks")
     table.add_column("ID", style="cyan", no_wrap=True)
     table.add_column("Title", style="magenta")
@@ -65,7 +65,7 @@ def list(status: str = "all"):
     table.add_column("Created At", style="blue")
     table.add_column("Updated At", style="blue")
 
-    for task in tasks:
+    for task in tasks_filtered_by_status:
         table.add_row(task.id, task.title, task.description, task.status.value, task.created_at, task.updated_at)
 
     console.print(table)
