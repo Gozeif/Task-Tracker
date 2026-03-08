@@ -40,13 +40,13 @@ def update(command: str,task_id: str, option: str):
                 style="red",
             )
             return
-        for task in logic.TaskManager.tasks:
+        for task in tasks:
             if task.id == task_id:
                 console.print(f"Task status updated: {task.id}, {task.title}, {task.description}, {task.status.value}, {task.updated_at}, {task.created_at}", style="yellow")
                 break
     elif command == "description":
         logic.TaskManager.update_task_description(task_id, option)
-        for task in logic.TaskManager.tasks:
+        for task in tasks:
             if task.id == task_id:
                 console.print(f"Task description updated: {task.id}, {task.title}, {task.description}, {task.status.value}, {task.updated_at}, {task.created_at}", style="yellow")
                 break
