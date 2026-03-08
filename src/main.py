@@ -10,25 +10,27 @@ console = Console()
 @app.command()
 def add(title: str, description: str = ""):
     """Add a new task with the given title and optional description."""
-    logic.TaskManager().add_task(title, description)
+    logic.TaskManager.add_task(title, description)
     console.print(f"Task added: {title}", style="green")
 
 @app.command()
 def remove(task_id: str):
     """Remove a task by its ID."""
-    logic.TaskManager().remove_task(task_id)
+    logic.TaskManager.remove_task(task_id)
     console.print(f"Task removed: {task_id}", style="red")
 
 @app.command()
 def update(command: str,task_id: str, option: str):
     """Update a task's title by its ID."""
     if command == "title":
-        logic.TaskManager().update_task_title(task_id, option)
-        task = [task for task in logic.TaskManager().tasks if task.id == task_id][0]
-        console.print(f"Task title updated: {task.id}, {task.title}, {task.description}, {task.status.value}, {task.updated_at}, {task.created_at}", style="yellow")
+        logic.TaskManager.update_task_title(task_id, option)
+        for task in logic.TaskManager.tasks:
+            if task.id == task_id:
+                console.print(f"Task title updated: {task.id}, {task.title}, {task.description}, {task.status.value}, {task.updated_at}, {task.created_at}", style="yellow")
+                break
     elif command == "status":
         try:
-            logic.TaskManager().update_task_status(task_id, option)
+            logic.TaskManager.update_task_status(task_id, option)
         except ValueError:
             console.print(
                 f"'{option}' is not a valid status. "
@@ -36,12 +38,16 @@ def update(command: str,task_id: str, option: str):
                 style="red",
             )
             return
-        task = [task for task in logic.TaskManager().tasks if task.id == task_id][0]
-        console.print(f"Task status updated: {task.id}, {task.title}, {task.description}, {task.status.value}, {task.updated_at}, {task.created_at}", style="yellow")
+        for task in logic.TaskManager.tasks:
+            if task.id == task_id:
+                console.print(f"Task status updated: {task.id}, {task.title}, {task.description}, {task.status.value}, {task.updated_at}, {task.created_at}", style="yellow")
+                break
     elif command == "description":
-        logic.TaskManager().update_task_description(task_id, option)
-        task = [task for task in logic.TaskManager().tasks if task.id == task_id][0]
-        console.print(f"Task description updated: {task.id}, {task.title}, {task.description}, {task.status.value}, {task.updated_at}, {task.created_at}", style="yellow")
+        logic.TaskManager.update_task_description(task_id, option)
+        for task in logic.TaskManager.tasks:
+            if task.id == task_id:
+                console.print(f"Task description updated: {task.id}, {task.title}, {task.description}, {task.status.value}, {task.updated_at}, {task.created_at}", style="yellow")
+                break
     else:
         console.print("Invalid update command. Use 'title', 'status', or 'description'.", style="red")
 

@@ -1,9 +1,9 @@
 import os
 import psycopg as db
 from src.models import Task, tasks
-from src.config import DatabaseConfig
+from src.config import Config
 
-db_uri = DatabaseConfig.uri
+db_uri = Config.DB.uri
 
 class LoadManager:
     @staticmethod
