@@ -47,8 +47,6 @@ USER appuser
 # Copy the source code into the container.
 COPY --chown=appuser:appuser . .
 
-# Expose the port that the application listens on.
-EXPOSE 8000
-
 # Run the application.
-ENTRYPOINT [ "python", "-m", "src.main"]
+ENTRYPOINT ["python", "-m", "src.main"]
+CMD ["list"]

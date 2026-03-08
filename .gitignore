@@ -1,6 +1,6 @@
 # --- Sensitive Information ---
 .env
-secrets/
+run/
 
 # --- Python ---
 **/__pycache__/

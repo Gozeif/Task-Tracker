@@ -3,13 +3,14 @@ from pathlib import Path
 import sys
 from dotenv import load_dotenv
 
+
 # Load variables from .env if it exists (useful for local Windows dev)
 load_dotenv()
 
 class DatabaseConfig:
     # 1. Non-sensitive variables from .env
     db_user = os.getenv("POSTGRES_USER", "postgres")
-    db_name = os.getenv("POSTGRES_DB_NAME", "task_tracker")
+    db_name = os.getenv("POSTGRES_DB", "task_tracker")
     db_host = os.getenv("DB_HOST", "localhost")  # 'db' inside Docker, 'localhost' on Windows
     db_port = os.getenv("DB_PORT", "5432")
 
@@ -19,7 +20,7 @@ class DatabaseConfig:
         Using a property means the password is only 
         fetched when you actually ask for it.
         """
-        return Config.get_secret("db-pw", fallback_file="db_password.txt")
+        return Config.get_secret("db_pw", fallback_file="db_password.txt")
 
     @property
     def uri(self):
@@ -27,9 +28,10 @@ class DatabaseConfig:
 
     def get_db_uri(self):
         """Construct the full database URI using the config values."""
-        if not self.db_pass:
+        password = self.db_pass
+        if not password:
             return None
-        return f"postgresql://{self.db_user}:{self.db_pass}@{self.db_host}:{self.db_port}/{self.db_name}"
+        return f"postgresql://{self.db_user}:{password}@{self.db_host}:{self.db_port}/{self.db_name}"
 
 class AppConfig:
     def __init__(self):
@@ -59,10 +61,6 @@ class Config:
                 # In Debug/Windows mode, just print a warning
                 print(f"WARNING: Database secret not found ({e}).")
                 print("Debug mode detected. Ensure 'secrets/db_password.txt' exists.")
-                if input("Do you want to continue without a database connection? (y/n): ").lower() == "y":
-                    print("Continuing without database connection. Some features may not work.")
-                else:
-                    sys.exit(1)
 
     @staticmethod
     def get_secret(secret_name, default=None, fallback_file=None):
@@ -72,9 +70,14 @@ class Config:
         if docker_path.exists():
             return docker_path.read_text().strip()
         # 2. Check Local Secrets folder (for Windows Dev)
+        print(f"{secret_name} not found in Docker secrets. Checking local secrets folder...")
         if fallback_file:
             local_path = Path(__file__).parent.parent / "secrets" / fallback_file
             if local_path.exists():
                 return local_path.read_text().strip()
+        print(f"{secret_name} not found in local secrets folder either.")
         # 3. Check Environment Variables
-        return os.getenv(secret_name.upper(), default)
+        env_name = secret_name.replace("-", "_").upper()
+        return os.getenv(env_name, default)
+
+Config.validate()

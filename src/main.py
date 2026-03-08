@@ -3,7 +3,9 @@ from rich.console import Console
 from rich.table import Table
 import src.logic as logic
 from src.models import Status, tasks
+from src.database import LoadManager
 
+LoadManager.load_tasks()
 app = typer.Typer(help="My Professional Task Tracker CLI application.")
 console = Console()
 

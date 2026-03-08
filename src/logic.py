@@ -2,6 +2,7 @@ from src.database import LoadManager
 from src.models import Task, Status, tasks
 from datetime import datetime
 
+
 class TaskManager:
     @staticmethod
     def add_task(title, description=""):
