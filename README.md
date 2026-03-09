@@ -64,7 +64,7 @@ docs for more detail on building and pushing.
 
 ## Configuration
 
-The application stores data in a postgresql database.
+The application stores data in a postgreSQL database.
 config.py looks for the database password as a docker secret, and fallsback to an environment variable if not found.
 
 ## Usage
