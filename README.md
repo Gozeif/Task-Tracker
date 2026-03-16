@@ -1,4 +1,5 @@
 # Task Tracker
+
 A simple Python command-line application for managing a task list stored in JSON.
 This project provides basic create/read/update/delete operations on tasks and persists them in a file under `data/tasks.json`.
 
@@ -13,18 +14,19 @@ This project provides basic create/read/update/delete operations on tasks and pe
 - Python 3.10 or newer
 - A virtual environment (recommended)
 
-
 ## Setup
 
 ### Git Clone
 
-
 1. Clone the repository if you haven't already:
+
    ```bash
    git clone https://github.com/Gozeif/Task-Tracker.git "Task Tracker"
    cd "Task Tracker"
    ```
+
 2. Create and activate a virtual environment:
+
    ```bash
    python -m venv .venv
    # Windows
@@ -32,7 +34,9 @@ This project provides basic create/read/update/delete operations on tasks and pe
    # macOS/Linux
    source .venv/bin/activate
    ```
+
 3. Install dependencies:
+
    ```bash
    pip install -r requirements.txt
    ```
@@ -44,7 +48,7 @@ This project provides basic create/read/update/delete operations on tasks and pe
 Start the application by running docker compose in the project root folder:
 `docker compose up --build`.
 
-Your application will be available at http://localhost:8000.
+Your application will be available at <http://localhost:8000>.
 
 #### Deploying your application to the cloud
 
@@ -60,7 +64,8 @@ Consult Docker's [getting started](https://docs.docker.com/go/get-started-sharin
 docs for more detail on building and pushing.
 
 #### References
-* [Docker's Python guide](https://docs.docker.com/language/python/)
+
+- [Docker's Python guide](https://docs.docker.com/language/python/)
 
 ## Configuration
 
@@ -79,7 +84,7 @@ The CLI will prompt for commands such as `add`, `list`, `update`, and `delete`. 
 
 ## Project Structure
 
-```
+```text
 Task Tracker/
 ├── db/                   # SQL database schema and migrations
 │   └── init.sql          # Database schema initialization
