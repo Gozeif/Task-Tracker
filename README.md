@@ -82,6 +82,12 @@ python main.py
 
 The CLI will prompt for commands such as `add`, `list`, `update`, and `delete`. Follow on-screen instructions.
 
+Run the docker container using:
+
+```bash
+docker compose run --rm app {command} {options}
+```
+
 ## Project Structure
 
 ```text
