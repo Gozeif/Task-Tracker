@@ -49,6 +49,7 @@ services:
       context: .
     tty: true
     stdin_open: true
+    container_name: app
     depends_on:
       db:
         condition: service_healthy
@@ -63,6 +64,7 @@ services:
 
   db:
     image: postgres:18
+    container_name: db
     restart: always
     secrets:
       - db_pw
