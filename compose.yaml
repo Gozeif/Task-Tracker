@@ -50,6 +50,8 @@ services:
     tty: true
     stdin_open: true
     container_name: app
+    profiles:
+      - cli
     depends_on:
       db:
         condition: service_healthy
